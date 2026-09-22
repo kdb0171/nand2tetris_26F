@@ -7,5 +7,77 @@
 // When a key is pressed (any key), the program blackens the screen,
 // i.e. writes "black" in every pixel. When no key is pressed, 
 // the screen should be cleared.
+@SCREEN
+D=A
+@addr
+M=D
+@i
+M=0
 
-//// Replace this comment with your code.
+(LOOP)
+    @KBD
+    D=M
+    @NOKEYPRESS
+    D;JEQ
+    @KEYPRESS
+    0;JMP
+
+(KEYPRESS)
+    @addr
+    A=M
+    M=-1
+    @addr
+    M=M+1
+    @i
+    M=M+1
+    D=M
+
+    //RESET SCREEN IF FULL
+    @8192
+    D=D-A
+    @RESET
+    D;JEQ
+
+    //CHECK IF KEYBOARD IS PRESSED STILL
+    @KBD
+    D=M
+    @NOKEYPRESS
+    D;JEQ
+
+    @KEYPRESS
+    0;JMP
+
+(NOKEYPRESS)
+    @addr
+    A=M
+    M=0
+    @addr
+    M=M+1
+    @i
+    M=M+1
+    D=M
+
+    //RESET SCREEN IF FULL
+    @8192
+    D=D-A
+    @RESET
+    D;JEQ
+
+    //CHECK IF KBD IS PRESSED
+    @KBD
+    D=M
+    @KEYPRESS
+    D;JNE
+
+    @NOKEYPRESS
+    0;JMP
+
+(RESET)
+    @SCREEN
+    D=A
+    @addr
+    M=D
+    @i
+    M=0
+    @LOOP
+    0;JMP
