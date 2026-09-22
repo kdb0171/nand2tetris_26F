@@ -41,7 +41,7 @@ M=0
     //CHECK IF KEYBOARD IS PRESSED STILL
     @KBD
     D=M
-    @NOKEYPRESS
+    @RESET
     D;JEQ
 
     @KEYPRESS
@@ -66,7 +66,7 @@ M=0
     //CHECK IF KBD IS PRESSED
     @KBD
     D=M
-    @KEYPRESS
+    @RESET
     D;JNE
 
     @NOKEYPRESS
